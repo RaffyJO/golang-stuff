@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "learn-protobuf/protogen/basic";
+
+message UserContent {
+  uint32 user_content_id = 1 [json_name = "user_content_id"];
+  string slug = 2 [json_name = "slug"];
+  string title = 3 [json_name = "title"];
+  string html_content = 4 [json_name = "html_content"];
+  uint32 author_id = 5 [json_name = "author_id"];
+}

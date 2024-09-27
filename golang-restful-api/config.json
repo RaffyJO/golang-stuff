@@ -1,0 +1,16 @@
+{
+    "app": {
+        "name": "golang-restful-api",
+        "version": "1.0.0",
+        "author": "Raffy Jamil Octavialdy",
+        "env": "development"
+    },
+    "database": {
+        "show_sql": true,
+        "host": "localhost",
+        "port": 5432,
+        "user": "postgres",
+        "password": "postgres",
+        "database": "go_migration"
+    }
+}
