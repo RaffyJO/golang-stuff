@@ -1,0 +1,16 @@
+export MYSQL_URL="mysql://root:123456@tcp(localhost:3308)/forum-site-db"
+
+migrate-create:
+	@ migrate create -ext sql -dir scripts/migrations -seq $(name)
+
+migrate-up:
+	@ migrate -database ${MYSQL_URL} -path scripts/migrations up
+
+migrate-down:
+	@ migrate -database ${MYSQL_URL} -path scripts/migrations down
+
+migrate-version:
+	@ migrate -database ${MYSQL_URL} -path scripts/migrations version
+
+migrate-force:
+	@ migrate -database ${MYSQL_URL} -path scripts/migrations force $(version)
