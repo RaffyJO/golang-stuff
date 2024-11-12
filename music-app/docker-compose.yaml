@@ -1,0 +1,13 @@
+version : "3"
+services:
+  db:
+    image: postgres:latest
+    container_name: music-app
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: music-app-db
+    volumes:
+      - /C/Users/Asus/Project Golang/Database/music-app:/var/lib/postgresql/data
