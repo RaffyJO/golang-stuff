@@ -1,0 +1,6 @@
+service:
+  port: ":8000"
+  secretJWT: "SECRET"
+
+database:
+  dataSourceName: "postgres://admin:admin@localhost:5433/music-app-db?sslmode=disable"
