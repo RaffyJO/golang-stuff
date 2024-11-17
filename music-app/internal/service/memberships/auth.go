@@ -3,6 +3,7 @@ package memberships
 import (
 	"errors"
 	"music-app/internal/models/memberships"
+	"music-app/pkg/jwt"
 
 	"github.com/rs/zerolog/log"
 	"golang.org/x/crypto/bcrypt"
@@ -34,4 +35,29 @@ func (s *service) SignUp(req memberships.SignUpRequest) error {
 	}
 
 	return s.repository.CreateUser(model)
+}
+
+func (s *service) Login(req memberships.LoginRequest) (string, error) {
+	userDetail, err := s.repository.GetUser(req.Email, "", 0)
+	if err != nil && err != gorm.ErrRecordNotFound {
+		log.Error().Err(err).Msg("Failed to get user from database")
+		return "", err
+	}
+
+	if userDetail == nil {
+		return "", errors.New("User not found")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(userDetail.Password), []byte(req.Password))
+	if err != nil {
+		return "", errors.New("Invalid email or password")
+	}
+
+	accessToken, err := jwt.CreateToken(int64(userDetail.ID), userDetail.Username, s.cfg.Service.SecretJWT)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed to generate token")
+		return "", err
+	}
+
+	return accessToken, nil
 }
