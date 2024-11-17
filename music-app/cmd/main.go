@@ -3,6 +3,10 @@ package main
 import (
 	"log"
 	"music-app/internal/configs"
+	membershipsHandler "music-app/internal/handler/memberships"
+	"music-app/internal/models/memberships"
+	membershipsRepo "music-app/internal/repository/memberships"
+	membershipsService "music-app/internal/service/memberships"
 	"music-app/pkg/internalsql"
 
 	"github.com/gin-gonic/gin"
@@ -33,8 +37,14 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to initialize database: ", err)
 	}
+	db.AutoMigrate(&memberships.User{})
 
 	r := gin.Default()
+
+	membershipsRepo := membershipsRepo.NewRepository(db)
+	membershipsService := membershipsService.NewService(cfg, membershipsRepo)
+	membershipsHandler := membershipsHandler.NewHandler(r, membershipsService)
+	membershipsHandler.RegisterRoutes()
 
 	r.Run(cfg.Service.Port)
 }
