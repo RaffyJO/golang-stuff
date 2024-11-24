@@ -53,7 +53,7 @@ func (s *service) Login(req memberships.LoginRequest) (string, error) {
 		return "", errors.New("Invalid email or password")
 	}
 
-	accessToken, err := jwt.CreateToken(int64(userDetail.ID), userDetail.Username, s.cfg.Service.SecretJWT)
+	accessToken, err := jwt.CreateToken(userDetail.ID, userDetail.Username, s.cfg.Service.SecretJWT)
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to generate token")
 		return "", err

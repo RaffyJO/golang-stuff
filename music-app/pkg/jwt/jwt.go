@@ -7,7 +7,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func CreateToken(userID int64, username string, secretKey string) (string, error) {
+func CreateToken(userID uint, username string, secretKey string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"id":       userID,
@@ -22,7 +22,7 @@ func CreateToken(userID int64, username string, secretKey string) (string, error
 	return tokenString, nil
 }
 
-func ValidateToken(tokenString string, secretKey string) (int64, string, error) {
+func ValidateToken(tokenString string, secretKey string) (uint, string, error) {
 	key := []byte(secretKey)
 	claims := jwt.MapClaims{}
 
@@ -36,7 +36,7 @@ func ValidateToken(tokenString string, secretKey string) (int64, string, error) 
 	if !token.Valid {
 		return 0, "", errors.New("Invalid token")
 	}
-	return int64(claims["id"].(float64)), claims["username"].(string), nil
+	return uint(claims["id"].(float64)), claims["username"].(string), nil
 }
 
 func ValidateTokenWithoutExpiry(tokenString string, secretKey string) (int64, string, error) {
