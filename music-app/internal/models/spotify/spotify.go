@@ -20,3 +20,7 @@ type SpotifyTrackObject struct {
 	Name     string `json:"name"`
 	IsLiked  *bool  `json:"is_liked"`
 }
+
+type RecommendationResponse struct {
+	Items []SpotifyTrackObject `json:"items"`
+}

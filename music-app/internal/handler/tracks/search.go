@@ -12,6 +12,15 @@ func (h *Handler) Search(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	query := c.Query("query")
+	if query == "" {
+		c.JSON(http.StatusBadRequest, response.WebResponse{
+			Status:  "error",
+			Message: "query parameter is required",
+			Data:    nil,
+		})
+		return
+	}
+
 	pageSizeStr := c.Query("pageSize")
 	pageIndexStr := c.Query("pageIndex")
 
